@@ -81,14 +81,17 @@ var int = 0;
 for (rank_table <- rank_table_list) {
   val rank_reg = "(.*)pt".r
   val pts = rank_table.map(_ \\ "span" filter (_ \ "@class" contains Text("attention")) head).text
-    match {case rank_reg(n) => rank_list.updated(int, rank_list.apply(int) += ("point"-> n))}
+    match {case rank_reg(n) => rank_list.updated(int, rank_list.apply(int) += ("point"-> n.replaceAll(",","")))}
   int = int+1
 }
 val redis = new RedisClient("192.168.11.110",6379)
 if (redis.connect) {
   for (info <- rank_list) {
     val id = info.apply("id")
-    redis.setnx(id+"::name", info.apply("title"))
+    // redis.del(id+"::name")
+    // redis.del(id+"::point")
+    // redis.del(id+"::rank")
+    redis.set(id+"::name", info.apply("title"))
     redis.zadd(id+"::point", time, info.apply("point"))
     redis.zadd(id+"::rank", time, info.apply("rank"))
   }
