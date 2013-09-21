@@ -10,7 +10,7 @@ object ScalaProjectBuild extends Build {
       name := "Scala Project",
       organization := "org.example",
       version := "0.1-SNAPSHOT",
-      scalaVersion := "2.9.2"
+      scalaVersion := "2.10.2"
       // add other settings here
     )
   )
