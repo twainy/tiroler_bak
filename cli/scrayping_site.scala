@@ -2,6 +2,7 @@ import com.ning.http.client.filter.{FilterContext, ResponseFilter}
 import com.redis.RedisClient
 import dispatch._, Defaults._
 import java.io.StringReader
+import java.sql.Timestamp
 import nu.validator.htmlparser.common.XmlViolationPolicy
 import nu.validator.htmlparser.sax.HtmlParser
 import org.xml.sax.InputSource
@@ -9,8 +10,10 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable.HashMap
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
+import scala.slick.session.Database
 import scala.xml.parsing.NoBindingFactoryAdapter
 import scala.xml.Text
+import scala.slick.driver.MySQLDriver.simple._
 
 object HttpClient {
 
@@ -57,6 +60,18 @@ object HttpClient {
   }
 }
 
+case class Member(id: Int, firstName: String, lastName: String, instrumentId: Int)
+
+object PointTotal extends Table[(Int, String, Int, Int, Timestamp)]("point_total") {
+  def id = column[Int]("id", O PrimaryKey, O AutoInc)
+  def code = column[String]("code", O DBType "varchar(10)")
+  def point = column[Int]("point")
+  def rank = column[Int]("rank")
+  def time = column[Timestamp]("time")
+  def * = id ~ code  ~ point ~ rank ~ time;
+  // AutoIncrement なカラムを除外
+  def ins = code  ~ point ~ rank ~ time;
+}
 
 val time = System.currentTimeMillis
 val xml = HttpClient.fetchDataByXml(url("http://yomou.syosetu.com/rank/list/type/total_total/"))
@@ -85,16 +100,23 @@ for (rank_table <- rank_table_list) {
   int = int+1
 }
 val redis = new RedisClient("192.168.11.110",6379)
+val db = Database.forURL("jdbc:mysql://192.168.11.110:3306/narou", driver = "com.mysql.jdbc.Driver", user = "root")
 if (redis.connect) {
   for (info <- rank_list) {
     val id = info.apply("id")
+    val title = info.apply("title")
+    val point = info.apply("point")
+    val rank = info.apply("rank")
     // redis.del(id+"::name")
     // redis.del(id+"::point")
     // redis.del(id+"::rank")
-    redis.set(id+"::name", info.apply("title"))
-    redis.zadd(id+"::point", time, info.apply("point"))
-    redis.zadd(id+"::rank", time, info.apply("rank"))
+    redis.set(id+"::name", title)
+    redis.zadd(id+"::point", time, time + point)
+    redis.zadd(id+"::rank", time, time + rank)
+    // mysql> create table point_total (id bigint not null auto_increment, code varchar(10) not null, point int, rank int, time timestamp, primary key (id), key code_time (code,time);
+    db withSession {implicit session: Session =>
+      PointTotal.ins.insert(id,Integer.valueOf(point), Integer.valueOf(rank), new Timestamp(time))
+    }
   }
 }
 print(rank_list)
-
