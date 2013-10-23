@@ -100,7 +100,7 @@ for (rank_table <- rank_table_list) {
   int = int+1
 }
 val redis = new RedisClient("192.168.11.110",6379)
-val db = Database.forURL("jdbc:mysql://192.168.11.110:3306/narou", driver = "com.mysql.jdbc.Driver", user = "root")
+val db = scala.slick.session.Database.forURL("jdbc:mysql://192.168.11.110:3306/narou", driver = "com.mysql.jdbc.Driver", user = "root")
 if (redis.connect) {
   for (info <- rank_list) {
     val id = info.apply("id")

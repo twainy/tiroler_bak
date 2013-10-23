@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleName</key>
+	<string>Charles</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.xk72.charles.Main</string>
+	<key>CFBundleVersion</key>
+	<string>3.6.5</string>
+	<key>CFBundleShortVersionString</key>
+	<string>3.6.5</string>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<string>false</string>
+	<key>CFBundleExecutable</key>
+	<string>Charles</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>Chls</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Charles Web Debugging Proxy http://www.xk72.com/</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleIconFile</key>
+	<string>charles</string>
+	<key>Java</key>
+	<dict>
+		<key>WorkingDirectory</key>
+		<string>$APP_PACKAGE/Contents/Resources/Java</string>
+		<key>MainClass</key>
+		<string>com.xk72.charles.gui.MainWithClassLoader</string>
+		<key>JVMVersion</key>
+		<string>1.4+</string>
+		<key>ClassPath</key>
+			<array>
+			<string>$JAVAROOT/charles.jar</string>
+			<!-- For Quaqua -->
+			<string>/System/Library/Java</string>
+			</array>
+		<key>Properties</key>
+		<dict>
+			<!-- http://developer.apple.com/library/mac/#documentation/Java/Reference/Java_PropertiesRef/Articles/JavaSystemProperties.html -->
+			<key>com.apple.mrj.application.live-resize</key>
+			<string>true</string>
+			<key>apple.laf.useScreenMenuBar</key>
+			<string>true</string>
+			<key>com.apple.macos.useScreenMenuBar</key>
+			<string>true</string>
+			<key>apple.mrj.application.growbox.intrudes</key>
+			<string>true</string>
+			<key>com.apple.hwaccel</key>
+			<string>true</string>
+			<key>swing.aatext</key>
+			<string>true</string>
+			<key>charles.config</key>
+			<string>~/Library/Preferences/com.xk72.charles.config</string>
+			<key>charles.data</key>
+			<string>~/Library/Application Support/Charles/</string>
+		</dict>
+		<key>VMOptions</key>
+		<string>-Xmx256m</string>
+	</dict>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>chls</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+            <string>charles_session</string>
+            <key>CFBundleTypeName</key>
+            <string>Charles saved session</string>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>amf</string>
+				<string>amf0</string>
+				<string>amf3</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+            <string>charles_amf</string>
+            <key>CFBundleTypeName</key>
+            <string>Charles AMF dump</string>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+		</dict>
+	</array>
+</dict>
+</plist>
