@@ -3,16 +3,31 @@
 <head>
     <script type="application/javascript" src="bower_components/d3/d3.js"></script>
     <script type="application/javascript" src="bower_components/nvd3/nv.d3.js"></script>
-    <link rel="stylesheet" href="bower_components/nvd3/nv.d3.css"></link>
+    <script type="application/javascript" src="bower_components/jquery/jquery.js"></script>
+    <script type="application/javascript" src="bower_components/select2/select2.js"></script>
+    <link rel="stylesheet" href="bower_components/nvd3/nv.d3.css"/>
+    <link rel="stylesheet" href="bower_components/select2/select2.css"/>
     <title></title>
 </head>
 <body>
 <div id="chart">
     <svg style="height:500px"></svg>
 </div>
-
+<select id="novel_select" style="width:500px" multiple>
+    <option value="1">テストその1</option>
+    <option value="2">テストその2</option>
+    <option value="3">テストその3</option>
+    <option value="4">テストその4</option>
+    <option value="5">テストその5</option>
+    <option value="6">テストその6</option>
+    <option value="7">テストその7</option>
+    <option value="8">テストその8</option>
+</select>
 <script type="application/javascript">
 <!--
+    $(document).ready(function() {
+        $("#novel_select").select2();
+    });
     nv.addGraph(function() {
         var chart = nv.models.lineChart();
 
@@ -25,7 +40,12 @@
                 .tickFormat(d3.format('.02f'));
 
         d3.select('#chart svg')
-                .datum(sinAndCos())
+                .datum(dummyData())
+                .transition().duration(500)
+                .call(chart);
+
+        d3.select('#chart svg')
+                .datum(dummyData())
                 .transition().duration(500)
                 .call(chart);
 
@@ -37,12 +57,12 @@
     /**************************************
      * Simple test data generator
      */
-    function sinAndCos() {
+    function dummyData() {
         var sin = [],
                 cos = [];
 
         for (var i = 0; i < 100; i++) {
-            sin.push({x: i, y: Math.sin(i/10)});
+            sin.push({x: , y: Math.sin(i/10)});
             cos.push({x: i, y: .5 * Math.cos(i/10)});
         }
 

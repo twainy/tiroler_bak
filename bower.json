@@ -5,9 +5,10 @@
     "sass-bootstrap": "~3.0.0",
     "requirejs": "~2.1.8",
     "modernizr": "~2.6.2",
-    "jquery": "~1.10.2",
+    "jquery": "~2.0.3",
     "d3": "3.3.5",
-    "nvd3": "1.1.14-beta"
+    "nvd3": "1.1.14-beta",
+    "select2": "3.4.4"
   },
   "devDependencies": {}
 }
