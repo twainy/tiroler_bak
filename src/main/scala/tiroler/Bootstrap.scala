@@ -8,7 +8,7 @@ import com.twitter.util.Eval
  * 起動処理を行うクラスが利用すべきTrait
  */
 trait Bootstrap {
-  private val DefaultConfigPath = "etc/tirolers.conf"
+  private val DefaultConfigPath = "etc/tiroler.conf"
 
   protected def loadConfigFromArgs(args: Array[String]): Config = {
     val configPath = args.toList match {
