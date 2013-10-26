@@ -1,7 +1,7 @@
 package tiroler
 
-import org.apache.commons.daemon.Daemon
-import com.redis.RedisClient
+import org.apache.commons.daemon.{DaemonContext, Daemon}
+import com.twitter.finagle.builder.Server
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,7 +13,6 @@ import com.redis.RedisClient
 /**
  * デーモンアプリケーション。
  */
-/*
 class DaemonApplication extends Daemon with Bootstrap {
 
   private var config: Config = _
@@ -25,7 +24,7 @@ class DaemonApplication extends Daemon with Bootstrap {
   }
 
   def start() {
-    DaemonApplication.server = Some(new ApiServerFactory(redisClient).build("daemon", config.apiPort))
+    DaemonApplication.server = Some(new ApiServerFactory().build("daemon", config.apiPort))
   }
 
   def stop() {
@@ -38,9 +37,6 @@ class DaemonApplication extends Daemon with Bootstrap {
 
 }
 
-/**
- * コンパニオンオブジェクト。
- */
 object DaemonApplication {
 
   @volatile
@@ -52,4 +48,3 @@ object DaemonApplication {
   def getDaemonContext: DaemonContext = daemonContext
 
 }
-*/

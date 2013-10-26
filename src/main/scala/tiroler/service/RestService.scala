@@ -8,5 +8,4 @@ package tiroler.service
  * To change this template use File | Settings | File Templates.
  */
 object RestService {
-
 }

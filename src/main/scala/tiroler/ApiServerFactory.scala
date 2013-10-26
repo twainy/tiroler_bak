@@ -9,7 +9,7 @@ import org.jboss.netty.handler.codec.http.HttpMethod
 import com.twitter.finagle.Service
 import com.twitter.finagle.http.RichHttp
 import com.twitter.finagle.http.service.RoutingService
-import tiroler.service.GraphDataService
+import tiroler.service.RankDataService
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,8 +29,8 @@ class ApiServerFactory{
       })
 
   private val routingService = byPathObject {
-      case (Method.Get, Root / "graph") => GraphDataService // HandleExceptions andThen GraphDataService
-    }
+    case (Method.Get, Root / "rank") => RankDataService // HandleExceptions andThen GraphDataService
+  }
   def build(name: String, portOpt: Option[Int]): Server = {
     val server = ServerBuilder()
       .codec(RichHttp[Request](Http()))
