@@ -89,3 +89,9 @@ body {
         border-bottom: 0;
     }
 }
+
+.nvd3.nv-stackedarea path.nv-area
+{
+  fill-opacity: 0.3;
+  stroke-opacity: 1;
+}

@@ -10,9 +10,6 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
@@ -22,6 +19,9 @@
     <script type="application/javascript" src="bower_components/select2/select2.js"></script>
     <link rel="stylesheet" href="bower_components/nvd3/nv.d3.css"/>
     <link rel="stylesheet" href="bower_components/select2/select2.css"/>
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
     <title></title>
 </head>
 <body>
@@ -47,20 +47,17 @@
         $("#novel_select").select2();
     });
     nv.addGraph(function() {
-        var chart = nv.models.lineChart();
+        var chart = nv.models.stackedAreaChart();
 
         chart.xAxis
-                .axisLabel('Time (ms)')
-                .tickFormat(d3.format(',r'));
+                .axisLabel('Date (ms)')
+                .tickFormat(function (d) {
+                    return d3.time.format("%Y/%m/%d")(new Date(d));
+                });
 
         chart.yAxis
                 .axisLabel('Voltage (v)')
                 .tickFormat(d3.format('.02f'));
-
-        d3.select('#chart svg')
-                .datum(dummyData())
-                .transition().duration(500)
-                .call(chart);
 
         d3.select('#chart svg')
                 .datum(dummyData())
@@ -76,22 +73,27 @@
      * Simple test data generator
      */
     function dummyData() {
-        var sin = [],
-                cos = [];
-
+        var y1, y2,y1_data = [],
+                y2_data = [];
+        var time = new Date(2013, 11, 1).getTime();
+        var day_time = 60*60*24;
+        y1 = y2 = 0;
         for (var i = 0; i < 100; i++) {
-            sin.push({x: i, y: Math.sin(i/10)});
-            cos.push({x: i, y: .5 * Math.cos(i/10)});
+            time = time + day_time;
+            y1 += Math.random()%100;
+            y2 += Math.random()%100;
+            y1_data.push({x: time, y: y1});
+            y2_data.push({x: time, y: y2});
         }
 
         return [
             {
-                values: sin,
+                values: y1_data,
                 key: 'Sine Wave',
                 color: '#ff7f0e'
             },
             {
-                values: cos,
+                values: y2_data,
                 key: 'Cosine Wave',
                 color: '#2ca02c'
             }
