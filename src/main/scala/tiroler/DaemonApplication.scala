@@ -4,13 +4,6 @@ import org.apache.commons.daemon.{DaemonContext, Daemon}
 import com.twitter.finagle.builder.Server
 
 /**
- * Created with IntelliJ IDEA.
- * User: takeshi-wakasugi
- * Date: 2013/09/24
- * Time: 23:22
- * To change this template use File | Settings | File Templates.
- */
-/**
  * デーモンアプリケーション。
  */
 class DaemonApplication extends Daemon with Bootstrap {
@@ -24,7 +17,7 @@ class DaemonApplication extends Daemon with Bootstrap {
   }
 
   def start() {
-    DaemonApplication.server = Some(new ApiServerFactory().build("daemon", config.apiPort))
+    DaemonApplication.server = Some(new ApiServerFactory().build("daemon", config.port))
   }
 
   def stop() {

@@ -7,11 +7,11 @@ import org.jboss.netty.handler.codec.http
 import org.jboss.netty.util.CharsetUtil
 import scala.util.parsing.json.JSON
 
-class RankDataServiceSuite extends FunSuite {
-  test("get rank data") {
-    val req = Request(new http.DefaultHttpRequest(Version.Http11, HttpMethod.GET, "/rank/n5166z,n4205bc"))
+class NovelDataServiceSuite extends FunSuite {
+  test("get novel data") {
+    val req = Request(new http.DefaultHttpRequest(Version.Http11, HttpMethod.GET, "/novel"))
     //queryString
-    val res = RankDataService(req)
+    val res = NovelDataService(req)
     res onSuccess {res: Response =>
       val json_string = res.getContent.toString(CharsetUtil.UTF_8)
       val l = JSON.parseFull(json_string)

@@ -1,6 +1,5 @@
 $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
-
-@import 'sass-bootstrap/lib/bootstrap';
+@import '../bower_components/sass-bootstrap/lib/bootstrap';
 
 .browsehappy {
     margin: 0.2em 0;
@@ -88,10 +87,4 @@ body {
     .jumbotron {
         border-bottom: 0;
     }
-}
-
-.nvd3.nv-stackedarea path.nv-area
-{
-  fill-opacity: 0.3;
-  stroke-opacity: 1;
 }

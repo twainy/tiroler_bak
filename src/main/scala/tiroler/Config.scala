@@ -4,11 +4,11 @@ import java.lang.String
 
 trait Config {
 
-    /** 環境状態(dev/production) */
+    /** 環境 dev|production */
     val state: Option[Int]
 
-    /** API用ポート番号 */
-    val apiPort: Option[Int]
+    /** ポート番号 */
+    val port: Option[Int]
 
 }
 

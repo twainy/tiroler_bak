@@ -75,7 +75,7 @@ object PointTotal extends Table[(Int, String, Int, Int, Timestamp)]("point_total
 
 val time = System.currentTimeMillis
 val xml = HttpClient.fetchDataByXml(url("http://yomou.syosetu.com/rank/list/type/total_total/"))
-var rank_list = Vector.empty[HashMap[String, String]]
+var rank_list = Seq.empty[HashMap[String, String]]
 val rank_h_list = xml \\ "div" filter (_ \ "@class" contains Text("rank_h"))
 for (rank_h <- rank_h_list){
   var map = new HashMap[String,String]

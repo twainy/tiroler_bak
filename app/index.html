@@ -3,85 +3,103 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>tiroler</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" href="styles/main.css">
-        <!-- endbuild -->
-        <!-- build:js scripts/vendor/modernizr.js -->
-        <script src="bower_components/modernizr/modernizr.js"></script>
-        <!-- endbuild -->
-    </head>
-    <body>
-        <!--[if lt IE 10]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>tiroler</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+    <script type="application/javascript" src="bower_components/d3/d3.js"></script>
+    <script type="application/javascript" src="bower_components/nvd3/nv.d3.js"></script>
+    <script type="application/javascript" src="bower_components/jquery/jquery.js"></script>
+    <script type="application/javascript" src="bower_components/select2/select2.js"></script>
+    <link rel="stylesheet" href="bower_components/nvd3/nv.d3.css"/>
+    <link rel="stylesheet" href="bower_components/select2/select2.css"/>
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <title></title>
+</head>
+<body>
+<!--[if lt IE 10]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+<div id="chart">
+    <svg style="height:500px"></svg>
+</div>
+<select id="novel_select" style="width:500px" multiple>
+    <option value="1">テストその1</option>
+    <option value="2">テストその2</option>
+    <option value="3">テストその3</option>
+    <option value="4">テストその4</option>
+    <option value="5">テストその5</option>
+    <option value="6">テストその6</option>
+    <option value="7">テストその7</option>
+    <option value="8">テストその8</option>
+</select>
+<script type="application/javascript">
+    <!--
+    $(document).ready(function() {
+        $("#novel_select").select2();
+    });
+    nv.addGraph(function() {
+        var chart = nv.models.stackedAreaChart();
 
+        chart.xAxis
+                .axisLabel('Date (ms)')
+                .tickFormat(function (d) {
+                    return d3.time.format("%Y/%m/%d")(new Date(d));
+                });
 
-        <div class="container">
-            <div class="header">
-                <ul class="nav nav-pills pull-right">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-                <h3 class="text-muted">tiroler</h3>
-            </div>
+        chart.yAxis
+                .axisLabel('Voltage (v)')
+                .tickFormat(d3.format('.02f'));
 
-            <div class="jumbotron">
-                <h1>'Allo, 'Allo!</h1>
-                <p class="lead">Always a pleasure scaffolding your apps.</p>
-                <p><a class="btn btn-lg btn-success" href="#">Splendid!</a></p>
-            </div>
+        d3.select('#chart svg')
+                .datum(dummyData())
+                .transition().duration(500)
+                .call(chart);
 
-            <div class="row marketing">
-                <div class="col-lg-6">
-                    <h4>HTML5 Boilerplate</h4>
-                    <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p>
+        nv.utils.windowResize(function() { d3.select('#chart svg').call(chart) });
 
-                    <h4>Bootstrap</h4>
-                    <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p>
+        return chart;
+    });
 
-                    <h4>Modernizr</h4>
-                    <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p>
+    /**************************************
+     * Simple test data generator
+     */
+    function dummyData() {
+        var y1, y2,y1_data = [],
+                y2_data = [];
+        var time = new Date(2013, 11, 1).getTime();
+        var day_time = 60*60*24;
+        y1 = y2 = 0;
+        for (var i = 0; i < 100; i++) {
+            time = time + day_time;
+            y1 += Math.random()%100;
+            y2 += Math.random()%100;
+            y1_data.push({x: time, y: y1});
+            y2_data.push({x: time, y: y2});
+        }
 
-
-                    <h4>RequireJS</h4>
-                    <p>RequireJS is a JavaScript file and module loader. It is optimized for in-browser use, but it can be used in other JavaScript environments, like Rhino and Node.</p>
-
-                </div>
-            </div>
-
-            <div class="footer">
-                <p>♥ from the Yeoman team</p>
-            </div>
-
-        </div>
-
-
-        <!-- build:js scripts/vendor.js -->
-        <!-- bower:js -->
-        <script src="bower_components/jquery/jquery.js"></script>
-        <!-- endbower -->
-        <!-- endbuild -->
-
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
-        </script>
-
-        <!-- build:js scripts/main.js -->
-        <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
-        <!-- endbuild -->
+        return [
+            {
+                values: y1_data,
+                key: 'Sine Wave',
+                color: '#ff7f0e'
+            },
+            {
+                values: y2_data,
+                key: 'Cosine Wave',
+                color: '#2ca02c'
+            }
+        ];
+    }
+    -->
+</script>
 </body>
 </html>
