@@ -21,6 +21,7 @@ object NovelDataService extends Service[Request, Response]{
     new Response {
       def httpResponse: HttpResponse = {
         val res = new DefaultHttpResponse(request.getProtocolVersion, HttpResponseStatus.OK)
+        res.setHeader("Access-Control-Allow-Origin","*")
         res.setContent(ChannelBuffers.copiedBuffer(json_string, CharsetUtil.UTF_8))
         res
       }

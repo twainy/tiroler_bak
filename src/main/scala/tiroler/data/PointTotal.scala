@@ -28,7 +28,7 @@ class PointTotalDao {
       "time"->p.time.getTime
     )
   }
-  def selectByCodes (codes: List[String], offset: Int = 10)(implicit session: Session):List[Map[String,Any]] = {
+  def selectByCodes (codes: List[String], offset: Int = 0)(implicit session: Session):List[Map[String,Any]] = {
     val list =
       if (offset == 0)
         (for { p <- PointTotals if p.code inSet codes} yield p) list()

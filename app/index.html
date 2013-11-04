@@ -32,46 +32,93 @@
     <svg style="height:500px"></svg>
 </div>
 <select id="novel_select" style="width:500px" multiple>
-    <option value="1">テストその1</option>
-    <option value="2">テストその2</option>
-    <option value="3">テストその3</option>
-    <option value="4">テストその4</option>
-    <option value="5">テストその5</option>
-    <option value="6">テストその6</option>
-    <option value="7">テストその7</option>
-    <option value="8">テストその8</option>
 </select>
 <script type="application/javascript">
     <!--
     $(document).ready(function() {
         $("#novel_select").select2();
     });
-    nv.addGraph(function() {
-        var chart = nv.models.stackedAreaChart();
 
-        chart.xAxis
-                .axisLabel('Date (ms)')
-                .tickFormat(function (d) {
-                    return d3.time.format("%Y/%m/%d")(new Date(d));
-                });
+    function novelList() {
+        $.ajax({
+            type:"GET",
+            url:"http://localhost:8080/novel",
+            dataType:"json",
+            success:function(json) {
+                for (var i= 0,length = json.length; i < length; i++) {
+                    $('#novel_select').append("<option value="+ json[i].id+">"+json[i].name+"</option>")
+                }
 
-        chart.yAxis
-                .axisLabel('Voltage (v)')
-                .tickFormat(d3.format('.02f'));
+            }
+        });
+    }
+    novelList();
+    function updateRankData(list) {
+        var get_param = list.join(",");
+        var point = {},rank = {},time = {};
+        $.ajax({
+            type:"GET",
+            url:"http://localhost:8080/rank/" + get_param,
+            dataType:"json",
+            success:function(json) {
+                for (var i= 0,length = json.length; i < length; i++) {
+                    {
+                        var code = json[i].code;
+                        if (point[code] == undefined) {point[code] = [], rank[code] = [], time[code] = [];}
+                        point[code].push(json[i].point)
+                        rank[code].push(json[i].rank)
+                        time[code].push(json[i].time)
+                    }
+                }
+                var result = [];
+                for (var n in point) {
+                    var value_array = [];
+                    var time_array = time[n];
+                    var point_array = point[n];
+                    for (var i= 0,length = time_array.length; i < length; i++) {
+                        value_array.push({x:time_array[i],y:point_array[i]});
+                    }
+                    var color = '#'+Math.floor(Math.random()*16777216).toString(16)
+                    result.push({
+                        values:value_array,
+                        key:n,
+                        color:color
+                    })
+                }
+                updateGraph(result);
+            }
+        });
+    }
+    function updateGraph(data) {
+        nv.addGraph(function() {
+            var chart = nv.models.stackedAreaChart();
 
-        d3.select('#chart svg')
-                .datum(dummyData())
-                .transition().duration(500)
-                .call(chart);
+            chart.xAxis
+                    .axisLabel('Date (ms)')
+                    .tickFormat(function (d) {
+                        return d3.time.format("%Y/%m/%d")(new Date(d));
+                    });
 
-        nv.utils.windowResize(function() { d3.select('#chart svg').call(chart) });
+            chart.yAxis
+                    .axisLabel('Voltage (v)')
+                    .tickFormat(d3.format('.02f'));
 
-        return chart;
+            d3.select('#chart svg')
+                    .datum(data)
+                    .transition().duration(500)
+                    .call(chart);
+
+            nv.utils.windowResize(function() { d3.select('#chart svg').call(chart) });
+
+            return chart;
+        });
+    }
+    $('select#novel_select').bind("change", function () {
+        var list = $("select#novel_select option:selected")
+        list = list.map(function(){return jQuery(this).val()}).get();
+        updateRankData(list);
     });
 
-    /**************************************
-     * Simple test data generator
-     */
     function dummyData() {
         var y1, y2,y1_data = [],
                 y2_data = [];

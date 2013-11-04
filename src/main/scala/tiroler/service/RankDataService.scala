@@ -29,6 +29,7 @@ object RankDataService extends Service[Request, Response]{
       def httpResponse: HttpResponse = {
         val res = new DefaultHttpResponse(request.getProtocolVersion, HttpResponseStatus.OK)
         res.setContent(ChannelBuffers.copiedBuffer(json_string, CharsetUtil.UTF_8))
+        res.setHeader("Access-Control-Allow-Origin","*")
         res
       }
     }

@@ -23,7 +23,7 @@ class ApiServerFactory{
   private def byPathObject[REQUEST](routes: PartialFunction[(HttpMethod, Path), Service[REQUEST, Response]]) =
     new RoutingService(
       new PartialFunction[Request, Service[REQUEST, Response]] {
-        def apply(request: Request) = routes((request.method, Path(request.path)))
+        def apply(request: Request) = routes(request.method, Path(request.path))
 
         def isDefinedAt(request: Request) = routes.isDefinedAt((request.method, Path(request.path)))
       })
