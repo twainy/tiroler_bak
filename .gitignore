@@ -8,3 +8,5 @@ app/bower_components
 target/*
 .idea
 .idea_modules
+project/project
+project/target
