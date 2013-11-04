@@ -4,4 +4,6 @@ dist
 .sass-cache
 .idea
 app/bower_components
-target
+target/*
+.idea
+.idea_modules

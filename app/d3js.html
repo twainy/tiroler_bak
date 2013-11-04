@@ -73,17 +73,14 @@
      * Simple test data generator
      */
     function dummyData() {
-        var y1, y2,y1_data = [],
-                y2_data = [];
-        var time = new Date(2013, 11, 1).getTime();
-        var day_time = 60*60*24;
-        y1 = y2 = 0;
-        for (var i = 0; i < 100; i++) {
-            time = time + day_time;
+        var y1,y2,sin = [],
+                cos = [];
+        d3.time.format("%Y-%m-%d");
+        for (var i = 0; i < 31; i++) {
             y1 += Math.random()%100;
             y2 += Math.random()%100;
-            y1_data.push({x: time, y: y1});
-            y2_data.push({x: time, y: y2});
+            sin.push({x: new Date(2013,11,i), y: y1});
+            cos.push({x: new Date(2013,11,i), y: y2});
         }
 
         return [
